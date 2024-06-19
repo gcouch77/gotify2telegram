@@ -2,7 +2,7 @@
 This Gotify plugin forwards all received messages to Telegram through the Telegram bot.
 
 ## Prerequisite
-- A Telegram bot, bot token, and chat ID from bot conversation. You can get that information by following this [blog](https://medium.com/linux-shots/setup-telegram-bot-to-get-alert-notifications-90be7da4444).
+- A Telegram bot, bot token, chat ID, and optionally a Topic ID (Bot must be added as a member of the Group). You can get that information by following this [blog](https://medium.com/linux-shots/setup-telegram-bot-to-get-alert-notifications-90be7da4444) or this [post](https://stackoverflow.com/questions/74773675/how-to-get-topic-id-for-telegram-group-chat).
 - Golang, Docker, wget (If you want to build the binary from source).
 
 ## Installation
@@ -36,5 +36,6 @@ Mandatory secrets.
 GOTIFY_HOST=ws://YOUR_GOTIFY_IP
 GOTIFY_CLIENT_TOKEN=YOUR_CLIENT_TOKEN
 TELEGRAM_CHAT_ID=YOUR_TELEGRAM_CHAT_ID
+TELEGRAM_TOPIC_ID=YOUR_TELEGRAM_TOPIC_ID        # optional
 TELEGRAM_BOT_TOKEN=YOUR_TELEGRAM_BOT_TOKEN
 ```
