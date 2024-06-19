@@ -29,6 +29,7 @@ type Plugin struct {
     ws *websocket.Conn;
     msgHandler plugin.MessageHandler;
     chatid string;
+    topicid string;
     telegram_bot_token string;
     gotify_host string;
 }
@@ -44,6 +45,7 @@ type GotifyMessage struct {
 
 type Payload struct {
 	ChatID string `json:"chat_id"`
+    TopicID string `json:"message_thread_id"`
 	Text   string `json:"text"`
 }
 
@@ -51,6 +53,7 @@ func (p *Plugin) send_msg_to_telegram(msg string) {
     data := Payload{
     // Fill struct
         ChatID: p.chatid,
+        TopicID: p.topicid,
         Text: msg,
     }
     payloadBytes, err := json.Marshal(data)
@@ -90,6 +93,7 @@ func (p *Plugin) connect_websocket() {
 func (p *Plugin) get_websocket_msg(url string, token string) {
     p.gotify_host = url + "/stream?token=" + token
     p.chatid = os.Getenv("TELEGRAM_CHAT_ID")
+    p.topicid = os.Getenv("TELEGRAM_TOPIC_ID")
     p.telegram_bot_token = os.Getenv("TELEGRAM_BOT_TOKEN")
 
     go p.connect_websocket()
