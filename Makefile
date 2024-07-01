@@ -1,5 +1,5 @@
 BUILDDIR=./build
-GOTIFY_VERSION=v2.4.0
+GOTIFY_VERSION=v2.5.0
 PLUGIN_NAME=telegram-plugin
 PLUGIN_ENTRY=plugin.go
 GO_VERSION=`cat $(BUILDDIR)/gotify-server-go-version`
@@ -16,7 +16,7 @@ create-build-dir:
 
 update-go-mod: create-build-dir
 	wget -LO ${BUILDDIR}/gotify-server.mod https://raw.githubusercontent.com/gotify/server/${GOTIFY_VERSION}/go.mod
-	gomod-cap -from ${BUILDDIR}/gotify-server.mod -to go.mod
+	go run github.com/gotify/plugin-api/cmd/gomod-cap -from ./build/gotify-server.mod -to go.mod
 	rm ${BUILDDIR}/gotify-server.mod || true
 	go mod tidy
 
@@ -33,6 +33,6 @@ build-linux-arm-7: get-gotify-server-go-version update-go-mod
 build-linux-arm64: get-gotify-server-go-version update-go-mod
 	${DOCKER_RUN} ${DOCKER_BUILD_IMAGE}:$(GO_VERSION)-linux-arm64 ${DOCKER_GO_BUILD} -o ${BUILDDIR}/${PLUGIN_NAME}-linux-arm64${FILE_SUFFIX}.so ${DOCKER_WORKDIR}
 
-build: build-linux-arm-7 build-linux-amd64 build-linux-arm64
+build: build-linux-amd64   # build-linux-arm-7 build-linux-amd64 build-linux-arm64
 
 .PHONY: build
